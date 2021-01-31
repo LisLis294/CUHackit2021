@@ -34,7 +34,7 @@ const onSubmit = (event) => {
     setStoryVisibility("invisible");
 
        event.preventDefault();
-    axios.get(`http://madlibz.herokuapp.com/api/random?minlength=5&maxlength=25`).then(function (response) {
+    axios.get(`https://madlibz.herokuapp.com/api/random?minlength=5&maxlength=25`).then(function (response) {
       console.log(response.data.blanks);
       console.log(response.data.title);
       console.log(response.data.blanks.length);

@@ -1,21 +1,26 @@
-#storyText {
-    display:none;
-}
-/* .buttonStyle {
-    width : 60px;
-    height : 20px;
-    }
-a.buttonStyle:hover {
-    background: rgb(30, 253, 30);
-} */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+h1 {
+    color: #426696;
+    font-weight: 600;
+    font-size: 3rem;
+    opacity: 0.8;
+  }
+  h2,
+  p {
+    color: #658ec6;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+
 main {
     min-height: 100vh;
     background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
