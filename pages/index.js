@@ -1,65 +1,134 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import axios from "axios";
+import React from "react";
+
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+  let blankMaker;
+  let i, j, x;
+  var name;
+  const [blankSize, setBlankSize] = React.useState();
+  const [valueSize, setValueSize] = React.useState();
+  const [storyVisibility, setStoryVisibility] = React.useState("invisible");
+  let blankList = "";
+  let listArray = [];
+  let valueArray = [];
+  const [fillBlank, setFillBlank] = React.useState("");
+  
+  //let runOnce = React.useState(false);
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+  const onStart = (event) => {
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+}
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+const changeVisibility = () => {
+  console.log("here");
+  //document.getElementById("story").class = "visible";
+  setStoryVisibility("visible");
+}
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+const onSubmit = (event) => {
+    document.getElementById("story").innerHTML = "";
+    setStoryVisibility("invisible");
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+       event.preventDefault();
+    axios.get(`http://madlibz.herokuapp.com/api/random?minlength=5&maxlength=25`).then(function (response) {
+      console.log(response.data.blanks);
+      console.log(response.data.title);
+      console.log(response.data.blanks.length);
+      console.log(response.data.value[0]);
+      console.log(response.data.value.length);
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+      setBlankSize(response.data.blanks.length);
+      setValueSize(response.data.value.length);
+      console.log(response.data.blanks.length);
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      listArray.length = response.data.blanks.length
+
+      listArray = [];
+      valueArray = [];
+      var holder = document.getElementById("holder");
+      //for(i = 0; i < blankSize; i++){
+      //  myString += response.data.blanks[i].toString();
+      //  myString += " ";
+      //}
+
+      //console.log(myString)
+      //setFillBlank(myString)
+
+      for(j=0; j < blankSize; j++){
+        listArray[j] = response.data.blanks[j];
+        valueArray[j] = response.data.value[j];
+        
+        if(typeof valueArray[j] !== 'undefined')
+          add2(valueArray[j].toString());
+
+        if (typeof listArray[j] !== 'undefined')
+            add(listArray[j].toString());
+      }
+      
+      if(typeof valueArray[valueSize - 1] !== 'undefined')
+          add2(valueArray[valueSize - 1].toString());
+
+      //blankMaker = p => <BlankList blank={response.data.blanks[i]}></BlankList>
+      //JSON.stringify(response.data.blanks[i][0])
+
+
+
+        //holder.innerHTML += "<input/>";
+
+
+  })
+}
+
+
+
+ function add(name) {
+
+  //Create an input type dynamically.
+  var element = document.createElement("input");
+  
+  
+  //Create Labels
+  //var label = document.createElement("Label");
+  //label.innerHTML = "New Label";     
+  
+  //Assign different attributes to the element.
+  element.setAttribute("type", "text");
+  element.setAttribute("value", "");
+  element.setAttribute("class", "inline-block bg-black text-white placeholder-gray-500 border border-gray-200 rounded-md p-2 m-2 visible");
+  element.setAttribute("name", "Test Name");
+  element.setAttribute("style", "width:200px");
+  element.setAttribute("placeholder", name)
+  
+
+
+  //label.setAttribute("style", "font-weight:normal border border-black");
+  
+  // 'foobar' is the div id, where new fields are to be added
+  var foo = document.getElementById("story");
+  
+  //Append the element in page (in span).
+  //foo.appendChild(label);
+  foo.appendChild(element);
+  }
+
+function add2(name) {
+  var element = document.createElement("P");
+  var textNode = document.createTextNode(name);
+  
+  element.appendChild(textNode);
+  
+  element.setAttribute("class", "text-white inline-block");
+  //element.setAttribute("id", "storyText");
+  
+  var foo = document.getElementById("story");
+  foo.appendChild(element);
+}
+
+  return(
+    
   )
+  
 }
